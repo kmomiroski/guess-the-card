@@ -64,7 +64,6 @@ export const FavoriteNumberSpan = styled.span`
 export const CardHolderThirdStep = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 230px;
 `;
 
 

@@ -190,23 +190,33 @@ const App = () => {
                         ? state.slot2
                         : state.slot3;
                     return (
-                      <div>
-                        <div style={{ width: "200px", height: "200px" }}>
-                          <Pile
-                            pileOrder={d}
-                            width={150}
-                            margin={100}
-                            focused={-1}
-                            straight={1}
-                            key={uuidv4()}
-                          />
+                      <div style={{ marginTop: "30px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            margin: "5px",
+                            gap: "5px",
+                            flexWrap: "wrap",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {d.map((e) => (
+                            <img
+                              alt="none"
+                              className="hand-card"
+                              key={e}
+                              src={require(`./card_pics/${e}.png`)}
+                              width="80px"
+                            ></img>
+                          ))}
                         </div>
                         <div
                           style={{
-                            marginTop: "170px",
-                            marginLeft: "100px",
-                            marginBottom: "10px",
-                            position: "relative",
+                            margin: "20px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
                         >
                           <ButtonLight

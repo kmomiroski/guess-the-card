@@ -17,7 +17,6 @@ export const STEP_3_INTRO_SUB = "Your favorite number is";
 
 export const STEP_6_HEADER =
   "Looks that you are telling the truth.";
-
 export const STEP_6_INTRO_SUB = "I'll generate the result very soon.";
 
 export const STEP_6_FINAL =
