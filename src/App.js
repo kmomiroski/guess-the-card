@@ -181,7 +181,7 @@ const App = () => {
                     {state.favoriteNumber}
                   </FavoriteNumberSpan>
                 </IntroSub>
-                <CardHolderThirdStep>
+                <div>
                   {[1, 2, 3].map((e) => {
                     let d =
                       e === 1
@@ -191,46 +191,30 @@ const App = () => {
                         : state.slot3;
                     return (
                       <div style={{ marginTop: "30px" }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            margin: "5px",
-                            gap: "5px",
-                            flexWrap: "wrap",
-                            justifyContent: "center",
-                          }}
-                        >
+                        <CardHolderThirdStep>
+                          <div style={{ marginRight: "15px" }}>
+                            <ButtonLight
+                              onClick={() => {
+                                selectDeck(e);
+                              }}
+                            >
+                              In this slot
+                            </ButtonLight>
+                          </div>
                           {d.map((e) => (
                             <img
                               alt="none"
-                              className="hand-card"
+                              className="cards__pile--item"
                               key={e}
                               src={require(`./card_pics/${e}.png`)}
                               width="80px"
                             ></img>
                           ))}
-                        </div>
-                        <div
-                          style={{
-                            margin: "20px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <ButtonLight
-                            onClick={() => {
-                              selectDeck(e);
-                            }}
-                          >
-                            In this slot
-                          </ButtonLight>
-                        </div>
+                        </CardHolderThirdStep>
                       </div>
                     );
                   })}
-                </CardHolderThirdStep>
+                </div>
               </>
             );
           }
@@ -258,16 +242,18 @@ const App = () => {
                 )}
                 {showGif && !spinner && <Intro>{STEP_6_FINAL}</Intro>}
 
-                <CustomBtn
-                  onClick={() => {
-                    setState((prevState) => ({
-                      ...prevState,
-                      currentStep: prevState.currentStep + 1,
-                    }));
-                  }}
-                >
-                  Next >>>{" "}
-                </CustomBtn>
+                {showGif && !spinner && (
+                  <CustomBtn
+                    onClick={() => {
+                      setState((prevState) => ({
+                        ...prevState,
+                        currentStep: prevState.currentStep + 1,
+                      }));
+                    }}
+                  >
+                    Next >>>{" "}
+                  </CustomBtn>
+                )}
               </>
             );
           }
