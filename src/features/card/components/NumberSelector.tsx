@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Grid, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Casino } from '@mui/icons-material';
@@ -65,6 +65,12 @@ interface NumberSelectorProps {
 
 export const NumberSelector: React.FC<NumberSelectorProps> = ({ onSelectNumber, maxNumber }) => {
   const numbers = Array.from({ length: maxNumber }, (_, i) => i + 1);
+  const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
+
+  const handleNumberSelect = (number: number) => {
+    setSelectedNumber(number);
+    onSelectNumber(number);
+  };
 
   return (
     <Box>
@@ -76,7 +82,8 @@ export const NumberSelector: React.FC<NumberSelectorProps> = ({ onSelectNumber, 
         {numbers.map((number) => (
           <Grid item key={number}>
             <NumberButton
-              onClick={() => onSelectNumber(number)}
+              selected={selectedNumber === number}
+              onClick={() => handleNumberSelect(number)}
               className="magic-button"
               startIcon={<Casino />}
             >

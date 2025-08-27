@@ -130,6 +130,17 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
+  @keyframes confettiFall {
+    0% {
+      transform: translateY(-10px) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+
   /* Utility classes */
   .fade-in {
     animation: fadeIn 0.6s ease-out;
@@ -161,6 +172,10 @@ export const GlobalStyles = createGlobalStyle`
 
   .mind-reading {
     animation: mindReading 1.5s ease-in-out infinite;
+  }
+
+  .confetti-fall {
+    animation: confettiFall 3s linear infinite;
   }
 
   /* Focus styles */

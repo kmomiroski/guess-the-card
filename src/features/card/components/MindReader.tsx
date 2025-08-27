@@ -83,6 +83,7 @@ export const MindReader: React.FC<MindReaderProps> = ({
 }) => {
   const [loadingText, setLoadingText] = useState('Initializing mind reading...');
   const [particles, setParticles] = useState<Array<{ id: number; delay: number; duration: number; x: number; y: number }>>([]);
+  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
     if (showAnimation) {
@@ -95,6 +96,17 @@ export const MindReader: React.FC<MindReaderProps> = ({
         y: Math.random() * 100,
       }));
       setParticles(newParticles);
+
+      // Start countdown
+      const countdownInterval = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            clearInterval(countdownInterval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
 
       // Update loading text
       const textSequence = [
@@ -176,6 +188,20 @@ export const MindReader: React.FC<MindReaderProps> = ({
           <LoadingText variant="body1">
             {loadingText}
           </LoadingText>
+          
+          {countdown > 0 && (
+            <Typography 
+              variant="h3" 
+              sx={{ 
+                mt: 2, 
+                color: '#7C3AED', 
+                fontWeight: 'bold',
+                animation: 'pulse 1s ease-in-out infinite'
+              }}
+            >
+              {countdown}
+            </Typography>
+          )}
         </MindReadingAnimation>
       </MindReaderContainer>
     );

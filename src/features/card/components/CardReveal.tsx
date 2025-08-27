@@ -1,7 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Card, CardContent } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Casino, Refresh, AutoAwesome } from '@mui/icons-material';
+import { Casino, Refresh, AutoAwesome, Celebration } from '@mui/icons-material';
+
+// Confetti Component
+const ConfettiPiece = styled(Box)<{ 
+  left: number; 
+  animationDelay: number; 
+  color: string; 
+  size: number;
+}>(({ left, animationDelay, color, size }) => ({
+  position: 'fixed',
+  left: `${left}%`,
+  top: '-10px',
+  width: size,
+  height: size,
+  background: color,
+  borderRadius: '50%',
+  animation: `confettiFall 3s linear infinite`,
+  animationDelay: `${animationDelay}s`,
+  zIndex: 1000,
+  pointerEvents: 'none',
+}));
+
+const ConfettiContainer = styled(Box)({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  pointerEvents: 'none',
+  zIndex: 1000,
+});
 
 const RevealContainer = styled(Box)(({ theme }) => ({
   textAlign: 'center',
@@ -128,11 +158,22 @@ interface CardRevealProps {
 export const CardReveal: React.FC<CardRevealProps> = ({ cardNumber, onPlayAgain }) => {
   const [isRevealed, setIsRevealed] = useState(false);
   const [sparkles, setSparkles] = useState<Array<{ id: number; delay: number; duration: number; x: number; y: number }>>([]);
+  const [showConfetti, setShowConfetti] = useState(false);
+  
+  // Generate confetti pieces
+  const confettiPieces = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    animationDelay: Math.random() * 3,
+    color: ['#7C3AED', '#F59E0B', '#10B981', '#EF4444', '#3B82F6', '#8B5CF6'][Math.floor(Math.random() * 6)],
+    size: Math.random() * 8 + 4,
+  }));
 
   useEffect(() => {
     // Trigger card reveal animation
     const timer = setTimeout(() => {
       setIsRevealed(true);
+      setShowConfetti(true);
     }, 500);
 
     // Generate sparkles
@@ -160,6 +201,21 @@ export const CardReveal: React.FC<CardRevealProps> = ({ cardNumber, onPlayAgain 
 
   return (
     <RevealContainer>
+      {/* Confetti Effect */}
+      {showConfetti && (
+        <ConfettiContainer>
+          {confettiPieces.map((piece) => (
+            <ConfettiPiece
+              key={piece.id}
+              left={piece.left}
+              animationDelay={piece.animationDelay}
+              color={piece.color}
+              size={piece.size}
+            />
+          ))}
+        </ConfettiContainer>
+      )}
+      
       <Typography variant="h3" gutterBottom color="#10B981">
         🎉 Your Card is Revealed!
       </Typography>
@@ -167,6 +223,32 @@ export const CardReveal: React.FC<CardRevealProps> = ({ cardNumber, onPlayAgain 
       <Typography variant="body1" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
         The magic has successfully read your mind! Here's the card you were thinking of all along.
       </Typography>
+      
+      <Box sx={{ 
+        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.1) 100%)',
+        border: '1px solid rgba(16, 185, 129, 0.3)',
+        borderRadius: 2,
+        padding: 2,
+        mb: 3,
+        animation: 'glow 2s ease-in-out infinite'
+      }}>
+        <Typography variant="body1" color="#10B981" sx={{ fontWeight: 600, textAlign: 'center' }}>
+          🏆 Congratulations! You've completed the magic journey! 🏆
+        </Typography>
+      </Box>
+
+      {/* Play Again Button - Moved Higher */}
+      <Box textAlign="center" mb={4}>
+        <PlayAgainButton
+          variant="contained"
+          size="large"
+          onClick={onPlayAgain}
+          startIcon={<Refresh />}
+          className="magic-button"
+        >
+          Play Again ✨
+        </PlayAgainButton>
+      </Box>
 
       <RevealedCard>
         <MagicEffect>
@@ -190,19 +272,6 @@ export const CardReveal: React.FC<CardRevealProps> = ({ cardNumber, onPlayAgain 
           className="card-image"
         />
       </RevealedCard>
-
-
-
-
-      <PlayAgainButton
-        variant="contained"
-        size="large"
-        onClick={onPlayAgain}
-        startIcon={<Refresh />}
-        className="magic-button"
-      >
-        Play Again ✨
-      </PlayAgainButton>
 
       <Box mt={4}>
         <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">
